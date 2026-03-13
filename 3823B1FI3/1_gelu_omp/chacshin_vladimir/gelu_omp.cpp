@@ -198,7 +198,7 @@ double test_performance(const std::vector<float>& input, size_t repeats = 4, int
     return 0;
 }*/
 
-void main() {
+/*void main() {
     std::vector<int> res;
     vector.pushback(1);
-}
+}*/
