@@ -2,13 +2,10 @@
 
 #include <cuda_runtime.h>
 
-#pragma GCC optimize("O3")
-
 __constant__ float PI_coeff = 0.797884F;
 __constant__ float coeff = 0.044715F;
 
 const int block_size = 256;
-const int count_of_streams = 16;
 
 //__restrict__ - указание nvcc о том, что данные доступны только через этот указатель в данной области видимости. Тем самым мы уменьшаем количество проверок с его стороны
 __global__ void gelu_kernel(const float* __restrict__ input, float* __restrict__ output, const int n)
@@ -25,37 +22,23 @@ __global__ void gelu_kernel(const float* __restrict__ input, float* __restrict__
 std::vector<float> GeluCUDA(const std::vector<float>& input)
 {
     const int size = input.size();
+    const int num_blocks = (size + block_size - 1) / block_size;
+
+    float *input_gpu;
+    float *output_gpu;
     const int bytes = size * sizeof(float);
-    const int stream_size = size / count_of_streams;
-    const int stream_bytes = stream_size * sizeof(float);
+
+    cudaMalloc(&input_gpu, bytes);
+    cudaMalloc(&output_gpu, bytes);
+    cudaMemcpy(input_gpu, input.data(), bytes, cudaMemcpyHostToDevice);
+
+    gelu_kernel <<<num_blocks, block_size>>> (input_gpu, output_gpu, size);
 
     std::vector<float> output(size);
+    cudaMemcpy(output.data(), output_gpu, bytes, cudaMemcpyDeviceToHost);
 
-    float *device_in, *device_out;
-
-    cudaMalloc((void**)&device_in, bytes);
-    cudaMalloc((void**)&device_out, bytes);
-
-    cudaStream_t streams[count_of_streams];
-    for(int i = 0;i < count_of_streams;i++)
-        cudaStreamCreate(&streams[i]);
-    
-    const int num_blocks = (stream_size + block_size - 1) / block_size;
-    for(int i = 0;i < count_of_streams;i++)
-    {
-        const int offset = i * stream_size;
-        cudaMemcpyAsync(device_in + offset, input.data() + offset, stream_bytes, cudaMemcpyHostToDevice, streams[i]);
-        gelu_kernel <<<num_blocks, block_size, 0, streams[i]>>>(device_in + offset, device_out + offset, stream_size);
-        cudaMemcpyAsync(output.data() + offset, device_out + offset, stream_bytes, cudaMemcpyDeviceToHost, streams[i]);
-    }
-    
-    cudaDeviceSynchronize();
-
-    for(int i = 0;i < count_of_streams;i++)
-        cudaStreamDestroy(streams[i]);
-
-    cudaFree(device_in);
-    cudaFree(device_out);
+    cudaFree(input_gpu);
+    cudaFree(output_gpu);
 
     return output;
 }
