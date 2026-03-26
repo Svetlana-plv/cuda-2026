@@ -16,7 +16,7 @@ std::vector<float> GeluOMP(const std::vector<float>& input) {
     for (int i = 0; i < size; ++i) {
         float x = input[i];
         float x3 = x * x * x;
-        output[i] = x / (1.0f + std::exp2f(-(GELU_2_SQRT_2_DIV_PI * (x + GELU_APPROX_COEFF * x3))));
+        output[i] = x / (1.0f + std::exp(-(GELU_2_SQRT_2_DIV_PI * (x + GELU_APPROX_COEFF * x3))));
     }
     return output;
 }
