@@ -1,4 +1,4 @@
-#include "Block_gemm_cuda.h"
+#include "block_gemm_cuda.h"
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
 #include <cmath>
