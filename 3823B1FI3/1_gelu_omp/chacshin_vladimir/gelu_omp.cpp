@@ -60,48 +60,6 @@ inline __m256 exp256_ps_small(__m256 x) {
     return _mm256_mul_ps(poly, pow2n);
 }
 
-inline __m256 _mm256_qexp_estrin_ps(__m256 _x)
-{
-    const __m256 _one = _mm256_set1_ps(1.0f);
-    const __m256 _ln2r = _mm256_set1_ps(1.44269504088896341f);
-
-    const __m256 _ln2a = _mm256_set1_ps(-0.693145751953125f);
-    const __m256 _ln2b = _mm256_set1_ps(-1.428606820309417e-6f);
-
-    const __m256 _c7 = _mm256_set1_ps(1.9875691500E-4f);
-    const __m256 _c6 = _mm256_set1_ps(1.3981999507E-3f);
-    const __m256 _c5 = _mm256_set1_ps(8.3334519073E-3f);
-    const __m256 _c4 = _mm256_set1_ps(4.1665795894E-2f);
-    const __m256 _c3 = _mm256_set1_ps(1.6666665459E-1f);
-    const __m256 _c2 = _mm256_set1_ps(5.0000001201E-1f);
-
-    __m256 _n = _mm256_round_ps(
-        _mm256_mul_ps(_x, _ln2r),
-        _MM_FROUND_TO_NEAREST_INT | _MM_FROUND_NO_EXC);
-
-    __m256 _g = _mm256_fmadd_ps(_n, _ln2b,
-        _mm256_fmadd_ps(_n, _ln2a, _x));
-
-    __m256 _g2 = _mm256_mul_ps(_g, _g);
-    __m256 _g4 = _mm256_mul_ps(_g2, _g2);
-
-    __m256 _p1 = _mm256_fmadd_ps(_c7, _g, _c6);
-    __m256 _p2 = _mm256_fmadd_ps(_c5, _g, _c4);
-    __m256 _p3 = _mm256_fmadd_ps(_p1, _g2, _p2);
-
-    __m256 _p4 = _mm256_fmadd_ps(_c3, _g, _c2);
-    __m256 _p5 = _mm256_fmadd_ps(_p4, _g2, _mm256_add_ps(_g, _one));
-
-    __m256 _y = _mm256_fmadd_ps(_p3, _g4, _p5);
-
-    __m256i _n_int = _mm256_cvtps_epi32(_n);
-    __m256i _exp_offset = _mm256_add_epi32(_n_int, _mm256_set1_epi32(127));
-    __m256i _exp_shifted = _mm256_slli_epi32(_exp_offset, 23);
-    __m256 _two_pow_n = _mm256_castsi256_ps(_exp_shifted);
-
-    return _mm256_mul_ps(_y, _two_pow_n);
-}
-
 std::vector<float> GeluOMP(const std::vector<float>& input) {
     size_t n = input.size();
     std::vector<float> output(n);
@@ -133,7 +91,7 @@ std::vector<float> GeluOMP(const std::vector<float>& input) {
 
             __m256 two_u = _mm256_add_ps(u, u);
 
-            __m256 exp2u = _mm256_qexp_estrin_ps(two_u);
+            __m256 exp2u = exp256_ps_small(two_u);
 
 
             __m256 tanh_u = _mm256_sub_ps(_mm256_set1_ps(1.0f),
@@ -143,8 +101,8 @@ std::vector<float> GeluOMP(const std::vector<float>& input) {
             __m256 res = _mm256_mul_ps(_mm256_set1_ps(0.5f),
                 _mm256_mul_ps(x, _mm256_add_ps(_mm256_set1_ps(1.0f), tanh_u)));
 
-            res = _mm256_blendv_ps(res, x, mask_high); // если x>10 ставим x
-            res = _mm256_blendv_ps(res, zero_vec, mask_low); // если x<-9 ставим 0
+            res = _mm256_blendv_ps(res, x, mask_high);
+            res = _mm256_blendv_ps(res, zero_vec, mask_low);
 
             _mm256_store_ps(output.data() + i, res);
         }
@@ -160,7 +118,7 @@ std::vector<float> GeluOMP(const std::vector<float>& input) {
     return output;
 }
 
-double test_performance(const std::vector<float>& input, size_t repeats = 4, int block_size = 16800) {
+/*double test_performance(const std::vector<float>& input, size_t repeats = 4, int block_size = 16800) {
     // Warming-up
     GeluOMP(input);
     // Performance Measuring
@@ -183,7 +141,7 @@ double test_performance(const std::vector<float>& input, size_t repeats = 4, int
     return avg;
 }
 
-/*int main() {
+int main() {
     omp_set_num_threads(4);
     using clock = std::chrono::high_resolution_clock;
 
@@ -196,9 +154,4 @@ double test_performance(const std::vector<float>& input, size_t repeats = 4, int
     test_performance(input2, 100);
 
     return 0;
-}*/
-
-/*void main() {
-    std::vector<int> res;
-    vector.pushback(1);
 }*/
