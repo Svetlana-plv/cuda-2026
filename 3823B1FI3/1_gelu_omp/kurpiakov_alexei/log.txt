@@ -1,1 +1,7 @@
-Incorrect results, test input_100_100.bin, difference 3.112154907235514
+/home/crazyproger/sandbox/cuda-2026/3823B1FI3/1_gelu_omp/kurpiakov_alexei/gelu_omp.cpp: In function ‘std::vector<float> GeluOMP(const std::vector<float>&)’:
+/home/crazyproger/sandbox/cuda-2026/3823B1FI3/1_gelu_omp/kurpiakov_alexei/gelu_omp.cpp:24:9: error: expected ‘,’ or ‘;’ before ‘float’
+   24 |         float arg = C1 * (x + C2 * x3);
+      |         ^~~~~
+/home/crazyproger/sandbox/cuda-2026/3823B1FI3/1_gelu_omp/kurpiakov_alexei/gelu_omp.cpp:26:43: error: ‘arg’ was not declared in this scope
+   26 |         output[i] = x / (1.0f + std::exp(-arg));
+      |                                           ^~~
