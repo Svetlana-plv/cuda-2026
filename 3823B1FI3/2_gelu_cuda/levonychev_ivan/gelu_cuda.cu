@@ -30,7 +30,7 @@ std::vector<float> GeluCUDA(const std::vector<float>& input) {
 
     std::vector<float> output(n);
 
-    cudaMemcpy(output.data(), gpu_output, n, cudaMemcpyDeviceToHost);
+    cudaMemcpy(output.data(), gpu_output, n  * sizeof(float), cudaMemcpyDeviceToHost);
 
     cudaFree(gpu_input);
     cudaFree(gpu_output);
