@@ -509,6 +509,7 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 |Group|Name|Result|Rank|
 |-----|----|------|----|
 |3823B1FI3|kurpiakov_aleksei|0.0159|10|
+|3823B1FI3|kutergin_valentin|0.0220|11|
 |**FAST**|**FAST**|**0.0223**|**-**|
 |3823B1FI3|kichanova_ksenia|0.0235|9|
 |3823B1FI3|chacshin_vladimir|0.0262|2|
@@ -553,20 +554,20 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 ## 3823B1FI3
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3823B1FI3|baldin_andrew|6/9|350|
-|3823B1FI3|chacshin_vladimir|3/9|144|
-|3823B1FI3|gutyansky_alexey|3/9|159|
-|3823B1FI3|kichanova_ksenia|6/9|339|
+|3823B1FI3|baldin_andrew|6/9|349|
+|3823B1FI3|chacshin_vladimir|3/9|143|
+|3823B1FI3|gutyansky_alexey|3/9|158|
+|3823B1FI3|kichanova_ksenia|6/9|338|
 |3823B1FI3|kurpiakov_aleksei|1/9|55|
 |3823B1FI3|kurpiakov_alexei|2/9|106|
-|3823B1FI3|kutergin_valentin|4/9|231|
+|3823B1FI3|kutergin_valentin|5/9|284|
 |3823B1FI3|levonychev_ivan|2/9|104|
-|3823B1FI3|lukin_ivan|4/9|216|
-|3823B1FI3|papulina_yuliya|3/9|151|
-|3823B1FI3|pylaeva_svetlana|3/9|145|
-|3823B1FI3|romanov_artem|4/9|229|
+|3823B1FI3|lukin_ivan|4/9|215|
+|3823B1FI3|papulina_yuliya|3/9|150|
+|3823B1FI3|pylaeva_svetlana|3/9|144|
+|3823B1FI3|romanov_artem|4/9|228|
 |3823B1FI3|votincev_dmitri|3/9|169|
-|3823B1FI3|zavyalov_alexey|5/9|270|
+|3823B1FI3|zavyalov_alexey|5/9|269|
 
 Passed: 0
 
