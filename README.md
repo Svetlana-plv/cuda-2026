@@ -563,6 +563,7 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 |-----|----|------|----|
 |**FAST**|**FAST**|**0.1449**|**-**|
 |3823B1FI3|levonychev_ivan|0.2502|1|
+|3823B1FI3|baldin_andrew|0.2518|2|
 |**REF**|**REF**|**0.2986**|**-**|
 |3823B1FI3|kichanova_ksenia|RUN FAILED|-|
 
@@ -570,7 +571,7 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 ## 3823B1FI3
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3823B1FI3|baldin_andrew|8/9|466|
+|3823B1FI3|baldin_andrew|**9/9**|**528**|
 |3823B1FI3|chacshin_vladimir|3/9|141|
 |3823B1FI3|gutyansky_alexey|3/9|155|
 |3823B1FI3|kichanova_ksenia|7/9|399|
@@ -585,9 +586,9 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 |3823B1FI3|votincev_dmitri|4/9|224|
 |3823B1FI3|zavyalov_alexey|5/9|264|
 
-Passed: 0
+Passed: 1
 
-**Total Passed: 0**
+**Total Passed: 1**
 
 ---
 *Maximum Score: 576 (64 per task)*
