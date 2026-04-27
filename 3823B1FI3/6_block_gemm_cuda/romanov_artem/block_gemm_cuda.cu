@@ -16,13 +16,13 @@ __global__ void BlockGemmKernel(const float* __restrict__ A, const float* __rest
 
     int num_tiles = n / BS;
 
-#pragma unroll
     for (int t = 0; t < num_tiles; ++t) {
         As[ty][tx] = A[row * n + (t * BS + tx)];
         Bs[ty][tx] = B[(t * BS + ty) * n + col];
 
         __syncthreads();
 
+#pragma unroll
         for (int k = 0; k < BS; ++k) {
             sum += As[ty][k] * Bs[k][tx];
         }
