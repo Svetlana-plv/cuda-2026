@@ -473,6 +473,7 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 |3823B1FI3|romanov_artem|0.1519|7|
 |3823B1FI3|pylaeva_svetlana|0.1532|9|
 |3823B1FI3|kichanova_ksenia|0.1553|6|
+|3823B1FI3|kurpiakov_aleksei|0.1576|11|
 |3823B1FI3|levonychev_ivan|0.1754|8|
 |3823B1FI3|kutergin_valentin|0.1806|3|
 |3823B1FI3|lukin_ivan|0.1868|4|
@@ -480,7 +481,6 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 |3823B1FI3|baldin_andrew|0.2152|1|
 |**REF**|**REF**|**0.2167**|**-**|
 |3823B1FI3|frolova_sofya|0.2406|10|
-|3823B1FI3|kurpiakov_aleksei|TEST FAILED|-|
 
 ## 3_naive_gemm_omp (1024 elements)
 |Group|Name|Result|Rank|
@@ -593,20 +593,20 @@ std::vector<float> GeluOCL(const std::vector<float>& input, int platform) {
 ## 3823B1FI3
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3823B1FI3|baldin_andrew|**9/9**|**515**|
+|3823B1FI3|baldin_andrew|**9/9**|**514**|
 |3823B1FI3|chacshin_vladimir|3/9|140|
-|3823B1FI3|frolova_sofya|2/9|83|
+|3823B1FI3|frolova_sofya|2/9|82|
 |3823B1FI3|gutyansky_alexey|3/9|154|
 |3823B1FI3|kichanova_ksenia|**9/9**|**517**|
-|3823B1FI3|kurpiakov_aleksei|5/9|272|
+|3823B1FI3|kurpiakov_aleksei|6/9|322|
 |3823B1FI3|kurpiakov_alexei|2/9|105|
-|3823B1FI3|kutergin_valentin|6/9|337|
-|3823B1FI3|levonychev_ivan|**9/9**|**497**|
-|3823B1FI3|lukin_ivan|6/9|316|
+|3823B1FI3|kutergin_valentin|6/9|336|
+|3823B1FI3|levonychev_ivan|**9/9**|**496**|
+|3823B1FI3|lukin_ivan|6/9|315|
 |3823B1FI3|papulina_yuliya|3/9|146|
 |3823B1FI3|pylaeva_svetlana|7/9|362|
 |3823B1FI3|romanov_artem|7/9|388|
-|3823B1FI3|votincev_dmitri|7/9|385|
+|3823B1FI3|votincev_dmitri|7/9|384|
 |3823B1FI3|zavyalov_alexey|8/9|419|
 
 Passed: 3
