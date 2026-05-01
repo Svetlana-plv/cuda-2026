@@ -10,7 +10,7 @@ __global__ void Kernel(float4* in, float4* out, int size){
 
     if (tid < size) {
 
-        float4 x4 = in[i];
+        float4 x4 = in[tid];
         float4 res;
 
         float argX = C1 * (x4.x + C2 * x4.x * x4.x * x4.x);
@@ -26,7 +26,7 @@ __global__ void Kernel(float4* in, float4* out, int size){
         float argW = C1 * (x4.w + C2 * x4.w * x4.w * x4.w);
         res.w = x4.w / (1.0f + expf(-argW));
 
-        out[i] = res; 
+        out[tid] = res; 
     }
 }
 
@@ -40,13 +40,13 @@ std::vector<float> GeluCUDA(const std::vector<float>& input) {
     static cudaStream_t stream;
 
     if (allocated_size < bytes) {
-        if (d_in)
-            cudaFree(d_in);
-        if (d_out)
-            cudaFree(d_out);
+        if (vec_in)
+            cudaFree(vec_in);
+        if (vec_res)
+            cudaFree(vec_res);
 
-        cudaMalloc(&d_in, bytes);
-        cudaMalloc(&d_out, bytes);
+        cudaMalloc(&vec_in, bytes);
+        cudaMalloc(&vec_res, bytes);
 
         if (!stream)
             cudaStreamCreate(&stream);
@@ -54,7 +54,7 @@ std::vector<float> GeluCUDA(const std::vector<float>& input) {
         allocated_size = bytes;
     }
 
-    cudaMemcpyAsync(vec_in, input, bytes, cudaMemcpyHostToDevice, stream);
+    cudaMemcpyAsync(vec_in, input.data(), bytes, cudaMemcpyHostToDevice, stream);
 
     int n = static_cast<int>(input.size() / 4);
     int tpb = 512;
